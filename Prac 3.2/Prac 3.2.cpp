@@ -27,24 +27,24 @@ public:
 	cpResult CP(vector<point>& points)
 	{
 		auto distance = [](const point& p1, const point& p2) { return sqrt(pow((p1.x - p2.x), 2) + pow((p1.y - p2.y), 2)); };
-		auto bForce = [&](int left, int right)
+		auto compareX = [](const point& p1, const point& p2) { return p1.x < p2.x; };
+		auto compareY = [](const point& p1, const point& p2) { return p1.y < p2.y; };
+		auto bForce = [&](const vector<point>& points, int left, int right)
 			{
 				cpResult result{};
 
-				double rDistance = result.distance = { numeric_limits<double>::infinity() };
-				auto point1 = result.p1;
-				auto point2 = result.p2;
+				result.distance = { numeric_limits<double>::infinity() };
 
-				for (int i = 0; i < right; i++)
+				for (int i = left; i < right; ++i)
 				{
-					for (int j = 1; j < left; j++)
+					for (int j = i + 1; j < right; ++j)
 					{
 						double aDistance = distance(points[i], points[j]);
-						if (aDistance < rDistance)
+						if (aDistance < result.distance)
 						{
-							rDistance = aDistance;
-							point1 = points[i];
-							point2 = points[j];
+							result.distance = aDistance;
+							result.p1 = points[i];
+							result.p2 = points[j];
 						}
 					}
 				}
@@ -55,23 +55,21 @@ public:
 		auto sClosest = [&](vector<point>& strip, double doup)
 			{
 				cpResult result{};
+				result.distance = doup;
 
-				double rDistance = result.distance = doup;
-				auto point1 = result.p1;
-				auto point2 = result.p2;
+				vector<point> sortStrip = strip;
+				sort(sortStrip.begin(), sortStrip.end(), compareY);
 
-				sort(strip.begin(), strip.end(), [](const point& p1, const point& p2) { return p1.y < p2.y; });
-
-				for (int i = 0; i < strip.size(); i++)
+				for (size_t i = 0; i < sortStrip.size(); ++i)
 				{
-					for (int j = 1; j < strip.size() && (strip[i].y - strip[j].y) < rDistance; j++)
+					for (size_t j = i + 1; j < sortStrip.size() && (sortStrip[i].y - sortStrip[j].y) < result.distance; ++j)
 					{
 						double aDistance = distance(strip[i], strip[j]);
-						if (aDistance < rDistance)
+						if (aDistance < result.distance)
 						{
-							rDistance = aDistance;
-							point1 = strip[i];
-							point2 = strip[j];
+							result.distance = aDistance;
+							result.p1 = sortStrip[i];
+							result.p2 = sortStrip[j];
 						}
 					}
 				}
@@ -79,14 +77,14 @@ public:
 				return result;
 			};
 
-		function<cpResult(int, int)> cUtil = [&](int left, int right)
+		function<cpResult(vector<point>&, int, int)> cUtil = [&](vector<point>& points, int left, int right)
 			{
-				if (right - left <= 3) return bForce(left, right);
+				if (right - left <= 3) return bForce(points, left, right);
 
 				int middle = left + (right - left) / 2;
 
-				cpResult lRes = cUtil(left, middle);
-				cpResult rRes = cUtil(middle, right);
+				cpResult lRes = cUtil(points, left, middle);
+				cpResult rRes = cUtil(points, middle, right);
 				cpResult result = (lRes.distance < rRes.distance) ? lRes : rRes;
 
 				vector<point> strip;
@@ -103,17 +101,19 @@ public:
 				return (sResult.distance < result.distance) ? sResult : result;
 			};
 
-		sort(points.begin(), points.end(), [](const point& p1, const point& p2) { return p1.x < p2.x; });
+		sort(points.begin(), points.end(), compareX);
 
-		return cUtil(0, points.size());
+		return cUtil(points, 0, points.size());
 
 	}
 };
 
-void n2()
+class n2
 {
 
-}
+public:
+
+};
 
 void n3()
 {
@@ -150,7 +150,24 @@ int main()
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
+	n1 num1;
 	vector<n1::point> Points{ {1, 3}, {2, 5}, {5, 4}, {1, 6} };
+
+	cout << "\n1. Поиск пары ближайших точек." << endl;
+	cout << "   Пары точек:";
+
+	for (n1::point p : Points) cout << " (" << p.x << ", " << p.y << "); ";
+
+	cout << endl;
+
+	n1::cpResult res = num1.CP(Points);
+
+	cout << "Минимальное расстояние: " << res.distance; 
+	cout << " между парами" << " (" << res.p1.x << ", " << res.p1.y << ")";
+	cout << " (" << res.p2.x << ", " << res.p2.y << ")";
+
+
+
 
 	return 0;
 }
