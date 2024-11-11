@@ -11,6 +11,7 @@ using namespace std;
 class n1
 {
 public:
+
 	struct point
 	{
 		double x;
@@ -26,9 +27,9 @@ public:
 
 	cpResult CP(vector<point>& points)
 	{
-		auto distance = [](const point& p1, const point& p2) { return sqrt(pow((p1.x - p2.x), 2) + pow((p1.y - p2.y), 2)); };
-		auto compareX = [](const point& p1, const point& p2) { return p1.x < p2.x; };
-		auto compareY = [](const point& p1, const point& p2) { return p1.y < p2.y; };
+		auto distance = [](const point& p1, const point& p2) -> double { return sqrt(pow((p1.x - p2.x), 2) + pow((p1.y - p2.y), 2)); };
+		auto compareX = [](const point& p1, const point& p2) -> bool { return p1.x < p2.x; };
+		auto compareY = [](const point& p1, const point& p2) -> bool { return p1.y < p2.y; };
 		auto bForce = [&](const vector<point>& points, int left, int right)
 			{
 				cpResult result{};
@@ -110,9 +111,19 @@ public:
 
 class n2
 {
-
 public:
+	
+	string karatsubaMultiply(const string& num1, const string& num2)
+	{
+		static int countRecursions = 0;
 
+		auto addStr = [](const string& num1, const string& num2) -> string
+			{
+				string res;
+
+			};
+	}
+	
 };
 
 void n3()
