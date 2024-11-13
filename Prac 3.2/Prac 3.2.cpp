@@ -121,7 +121,64 @@ public:
 			{
 				string res;
 
+				int carry{ 0 }, sum{ 0 };
+				int i = num1.size() - 1, j = num2.size() - 1;
+				
+				while (i >= 0 || j >= 0 || carry)
+				{
+					sum = carry;
+
+					if (i >= 0) sum += num1[i--] - '0';
+					if (j >= 0) sum += num2[j--] - '0';
+
+					res += (sum % 10) + '0';
+					carry = sum / 10;
+				}
+
+				reverse(res.begin(), res.end());
+
+				return res;
 			};
+
+		auto subStr = [](const string& num1, const string& num2) -> string
+			{
+				string res;
+
+				int bor{ 0 }, diff{ 0 };
+
+				int i = num1.size() - 1, j = num2.size();
+
+				while (i >= 0 || j >= 0)
+				{
+					diff = (num1[i] - '0') - (j >= 0 ? (num2[j] - '0') : '0') - bor;
+
+					if (diff < 0)
+					{
+						diff += 10;
+						bor = 1;
+					}
+					else
+					{
+						bor = 0;
+					}
+
+					res += diff + '0';
+
+					i--;
+					j--;
+				}
+
+				while (res.size() > 1 && res.back() == '0')
+				{
+					res.pop_back();
+				}
+
+				reverse(res.begin(), res.end());
+
+				return res;
+			};
+
+		auto shift = [](const string& num, int n) -> string { return num + string(n, '0'); };
 	}
 	
 };
