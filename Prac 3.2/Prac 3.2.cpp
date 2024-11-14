@@ -18,21 +18,22 @@ public:
 		double y;
 	};
 
-	struct cpResult
+	struct clpResult
 	{
 		point p1;
 		point p2;
 		double distance;
 	};
 
-	cpResult CP(vector<point>& points)
+	clpResult ClosestPair(vector<point>& points)
 	{
 		auto distance = [](const point& p1, const point& p2) -> double { return sqrt(pow((p1.x - p2.x), 2) + pow((p1.y - p2.y), 2)); };
 		auto compareX = [](const point& p1, const point& p2) -> bool { return p1.x < p2.x; };
 		auto compareY = [](const point& p1, const point& p2) -> bool { return p1.y < p2.y; };
+
 		auto bForce = [&](const vector<point>& points, int left, int right)
 			{
-				cpResult result{};
+				clpResult result{};
 
 				result.distance = { numeric_limits<double>::infinity() };
 
@@ -55,7 +56,7 @@ public:
 
 		auto sClosest = [&](vector<point>& strip, double doup)
 			{
-				cpResult result{};
+				clpResult result{};
 				result.distance = doup;
 
 				vector<point> sortStrip = strip;
@@ -78,15 +79,15 @@ public:
 				return result;
 			};
 
-		function<cpResult(vector<point>&, int, int)> cUtil = [&](vector<point>& points, int left, int right)
+		function<clpResult(vector<point>&, int, int)> cUtil = [&](vector<point>& points, int left, int right)
 			{
 				if (right - left <= 3) return bForce(points, left, right);
 
 				int middle = left + (right - left) / 2;
 
-				cpResult lRes = cUtil(points, left, middle);
-				cpResult rRes = cUtil(points, middle, right);
-				cpResult result = (lRes.distance < rRes.distance) ? lRes : rRes;
+				clpResult lRes = cUtil(points, left, middle);
+				clpResult rRes = cUtil(points, middle, right);
+				clpResult result = (lRes.distance < rRes.distance) ? lRes : rRes;
 
 				vector<point> strip;
 				for (int i = left; i < right; i++)
@@ -97,7 +98,7 @@ public:
 					}
 				}
 
-				cpResult sResult = sClosest(strip, result.distance);
+				clpResult sResult = sClosest(strip, result.distance);
 
 				return (sResult.distance < result.distance) ? sResult : result;
 			};
@@ -112,12 +113,11 @@ public:
 class n2
 {
 public:
-	
+	int countRecursions = 0;
+
 	string karatsubaMultiply(const string& num1, const string& num2)
 	{
-		static int countRecursions = 0;
-
-		auto addStr = [](const string& num1, const string& num2) -> string
+		auto addStr = [&](const string& num1, const string& num2) -> string
 			{
 				string res;
 
@@ -140,7 +140,7 @@ public:
 				return res;
 			};
 
-		auto subStr = [](const string& num1, const string& num2) -> string
+		auto subStr = [&](const string& num1, const string& num2) -> string
 			{
 				string res;
 
@@ -178,7 +178,49 @@ public:
 				return res;
 			};
 
-		auto shift = [](const string& num, int n) -> string { return num + string(n, '0'); };
+		auto shiftStr = [](const string& num, int n) -> string { return num + string(n, '0'); };
+
+		auto rmLZ = [&](const string& str) -> string
+			{
+				size_t firstNotOfZero = str.find_first_not_of('0');
+				if (firstNotOfZero != string::npos)
+				{
+					return str.substr(firstNotOfZero);
+				}
+				return "0";
+			};
+
+		countRecursions++;
+
+		int n = max(num1.size(), num2.size());
+
+		if (n == 1)
+		{
+			int rs = (num1[0] - '0') * (num2[0] - '0');
+
+			return to_string(rs);
+		}
+
+		string x = string(n - num1.size(), '0') + num1;
+		string y = string(n - num2.size(), '0') + num2;
+
+		int half = n / 2;
+
+		string x1 = x.substr(0, half);
+		string x0 = x.substr(half);
+
+		string y1 = y.substr(0, half);
+		string y0 = y.substr(half);
+
+		string z2 = karatsubaMultiply(x1, y1);
+		string z0 = karatsubaMultiply(x0, y0);
+		string z1 = karatsubaMultiply(addStr(x1, x0), addStr(y1, y0));
+
+		z1 = subStr(z1, addStr(z2, z0));
+
+		string result = addStr(addStr(shiftStr(z2, 2 * (n - half)), shiftStr(z1, n - half)), z0);
+
+		return rmLZ(result);
 	}
 	
 };
@@ -228,14 +270,19 @@ int main()
 
 	cout << endl;
 
-	n1::cpResult res = num1.CP(Points);
+	n1::clpResult resClP = num1.ClosestPair(Points);
 
-	cout << "ћинимальное рассто€ние: " << res.distance; 
-	cout << " между парами" << " (" << res.p1.x << ", " << res.p1.y << ")";
-	cout << " (" << res.p2.x << ", " << res.p2.y << ")";
+	cout << "ћинимальное рассто€ние: " << resClP.distance; 
+	cout << " между парами" << " (" << resClP.p1.x << ", " << resClP.p1.y << ")";
+	cout << " (" << resClP.p2.x << ", " << resClP.p2.y << ")";
 
+	n2 num2;
 
+	string numK1{ "1234" }, numK2{ "5678" };
+	int recursionCount = num2.countRecursions;
 
+	string resKM(numK1, numK2);
+	
 
 	return 0;
 }
