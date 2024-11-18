@@ -112,84 +112,86 @@ public:
 
 class n2
 {
+private:
+	
+	string addStr(const string& num1, const string& num2)
+	{
+		string res;
+
+		int carry{ 0 }, sum{ 0 };
+		int i = num1.size() - 1, j = num2.size() - 1;
+
+		while (i >= 0 || j >= 0 || carry)
+		{
+			sum = carry;
+
+			if (i >= 0) sum += num1[i--] - '0';
+			if (j >= 0) sum += num2[j--] - '0';
+
+			res += (sum % 10) + '0';
+			carry = sum / 10;
+		}
+
+		reverse(res.begin(), res.end());
+
+		return res;
+	}
+
+	string subString(const string& num1, const string& num2)
+	{
+		string res;
+
+		int bor{ 0 }, diff{ 0 };
+
+		int i = num1.size() - 1, j = num2.size() - 1;
+
+		while (i >= 0 || j >= 0)
+		{
+			diff = (num1[i] - '0') - (j >= 0 ? (num2[j] - '0') : 0) - bor;
+
+			if (diff < 0)
+			{
+				diff += 10;
+				bor = 1;
+			}
+			else
+			{
+				bor = 0;
+			}
+
+			res += diff + '0';
+
+			i--;
+			j--;
+		}
+
+		while (res.size() > 1 && res.back() == '0')
+		{
+			res.pop_back();
+		}
+
+		reverse(res.begin(), res.end());
+
+		return res;
+	}
+
+	string shiftStr(const string& num, int n) { return num + string(n, '0'); };
+
+	string rmLZ(const string& str)
+	{
+		size_t firstNotOfZero = str.find_first_not_of('0');
+		if (firstNotOfZero != string::npos)
+		{
+			return str.substr(firstNotOfZero);
+		}
+		return "0";
+	}
+
 public:
 	int countRecursions = 0;
 
 	string karatsubaMultiply(const string& num1, const string& num2)
 	{
-		auto addStr = [&](const string& num1, const string& num2) -> string
-			{
-				string res;
-
-				int carry{ 0 }, sum{ 0 };
-				int i = num1.size() - 1, j = num2.size() - 1;
-				
-				while (i >= 0 || j >= 0 || carry)
-				{
-					sum = carry;
-
-					if (i >= 0) sum += num1[i--] - '0';
-					if (j >= 0) sum += num2[j--] - '0';
-
-					res += (sum % 10) + '0';
-					carry = sum / 10;
-				}
-
-				reverse(res.begin(), res.end());
-
-				return res;
-			};
-
-		auto subStr = [&](const string& num1, const string& num2) -> string
-			{
-				string res;
-
-				int bor{ 0 }, diff{ 0 };
-
-				int i = num1.size() - 1, j = num2.size();
-
-				while (i >= 0 || j >= 0)
-				{
-					diff = (num1[i] - '0') - (j >= 0 ? (num2[j] - '0') : '0') - bor;
-
-					if (diff < 0)
-					{
-						diff += 10;
-						bor = 1;
-					}
-					else
-					{
-						bor = 0;
-					}
-
-					res += diff + '0';
-
-					i--;
-					j--;
-				}
-
-				while (res.size() > 1 && res.back() == '0')
-				{
-					res.pop_back();
-				}
-
-				reverse(res.begin(), res.end());
-
-				return res;
-			};
-
-		auto shiftStr = [](const string& num, int n) -> string { return num + string(n, '0'); };
-
-		auto rmLZ = [&](const string& str) -> string
-			{
-				size_t firstNotOfZero = str.find_first_not_of('0');
-				if (firstNotOfZero != string::npos)
-				{
-					return str.substr(firstNotOfZero);
-				}
-				return "0";
-			};
-
 		countRecursions++;
 
 		int n = max(num1.size(), num2.size());
@@ -216,7 +218,7 @@ public:
 		string z0 = karatsubaMultiply(x0, y0);
 		string z1 = karatsubaMultiply(addStr(x1, x0), addStr(y1, y0));
 
-		z1 = subStr(z1, addStr(z2, z0));
+		z1 = subString(z1, addStr(z2, z0));
 
 		string result = addStr(addStr(shiftStr(z2, 2 * (n - half)), shiftStr(z1, n - half)), z0);
 
@@ -225,10 +227,68 @@ public:
 	
 };
 
-void n3()
+class n3
 {
+private:
+	int partition(vector<int>& nums, int left, int right, int pivotIndex) 
+	{
+		int pivotValue = nums[pivotIndex];
+		swap(nums[pivotIndex], nums[right]);
+		int storeIndex = left;
 
-}
+		for (int i = left; i < right; i++) {
+			if (nums[i] < pivotValue) {
+				swap(nums[storeIndex], nums[i]);
+				storeIndex++;
+			}
+		}
+
+		swap(nums[right], nums[storeIndex]);
+		return storeIndex;
+	}
+
+	int quickSelect(vector<int>& nums, int left, int right, int k) 
+	{
+		if (left == right) 
+		{
+			return nums[left];
+		}
+
+		int pivotIndex = left + rand() % (right - left + 1);
+		pivotIndex = partition(nums, left, right, pivotIndex);
+
+		if (k == pivotIndex) 
+		{
+			return nums[k];
+		}
+		else if (k < pivotIndex) 
+		{
+			return quickSelect(nums, left, pivotIndex - 1, k);
+		}
+		else 
+		{
+			return quickSelect(nums, pivotIndex + 1, right, k);
+		}
+	}
+
+public:
+
+	double findMedian(vector<int>& nums) 
+	{
+		int n = nums.size();
+		if (n % 2 == 1) 
+		{
+			return quickSelect(nums, 0, n - 1, n / 2);
+		}
+		else 
+		{
+			int leftMid = quickSelect(nums, 0, n - 1, n / 2 - 1);
+			int rightMid = quickSelect(nums, 0, n - 1, n / 2);
+			return (leftMid + rightMid) / 2.0;
+		}
+	}
+
+};
 
 void n4()
 {
@@ -281,7 +341,7 @@ int main()
 	string numK1{ "1234" }, numK2{ "5678" };
 	int recursionCount = num2.countRecursions;
 
-	string resKM(numK1, numK2);
+	string resKM = num2.karatsubaMultiply(numK1, numK2);
 	
 
 	return 0;
