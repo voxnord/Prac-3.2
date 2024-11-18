@@ -236,8 +236,10 @@ private:
 		swap(nums[pivotIndex], nums[right]);
 		int storeIndex = left;
 
-		for (int i = left; i < right; i++) {
-			if (nums[i] < pivotValue) {
+		for (int i = left; i < right; i++) 
+		{
+			if (nums[i] < pivotValue) 
+			{
 				swap(nums[storeIndex], nums[i]);
 				storeIndex++;
 			}
@@ -332,16 +334,32 @@ int main()
 
 	n1::clpResult resClP = num1.ClosestPair(Points);
 
-	cout << "Минимальное расстояние: " << resClP.distance; 
+	cout << "   Минимальное расстояние: " << resClP.distance; 
 	cout << " между парами" << " (" << resClP.p1.x << ", " << resClP.p1.y << ")";
-	cout << " (" << resClP.p2.x << ", " << resClP.p2.y << ")";
+	cout << " (" << resClP.p2.x << ", " << resClP.p2.y << ")" << endl;
 
 	n2 num2;
 
+	cout << "\n2. Умножение(Алгоритм Карацубы). " << endl;
+
 	string numK1{ "1234" }, numK2{ "5678" };
+	string resKM = num2.karatsubaMultiply(numK1, numK2);
 	int recursionCount = num2.countRecursions;
 
-	string resKM = num2.karatsubaMultiply(numK1, numK2);
+	cout << "   Умножение " << numK1 << " * " << numK2 << " = " << resKM << endl;
+	cout << "   Количество рекурсивных вызовов: " << recursionCount << endl;
+
+	n3 num3;
+	vector<int> arr{ 3, 2, 4, 7, 3, 8, 6 };
+
+	cout << "\n3. Вычисление медианы." << endl;
+	cout << "   Массив: ";
+
+	for (int n : arr) { cout << n << " "; } 
+	cout << endl;
+
+	cout << "   Медиана: " << num3.findMedian(arr) << endl;
+
 	
 
 	return 0;
