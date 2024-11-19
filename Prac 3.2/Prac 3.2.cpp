@@ -366,41 +366,31 @@ int main()
 	// Задание 1: Пара ближайших точек
 	n1 num1;
 	vector<n1::point> Points{ {1, 3}, {2, 5}, {5, 4}, {1, 6} };
-
 	cout << "\n1. Поиск пары ближайших точек." << endl;
 	cout << "   Пары точек:";
-
 	for (n1::point p : Points) cout << " (" << p.x << ", " << p.y << "); ";
-
 	cout << endl;
-
 	n1::clpResult resClP = num1.ClosestPair(Points);
-
 	cout << "   Минимальное расстояние: " << resClP.distance; 
 	cout << " между парами" << " (" << resClP.p1.x << ", " << resClP.p1.y << ")";
 	cout << " (" << resClP.p2.x << ", " << resClP.p2.y << ")" << endl;
 
 	// Задание 2: Алгоритм Карацубы
 	n2 num2;
-
 	cout << "\n2. Умножение(Алгоритм Карацубы). " << endl;
-
 	string numK1{ "1234" }, numK2{ "5678" };
 	string resKM = num2.karatsubaMultiply(numK1, numK2);
 	int recursionCount = num2.countRecursions;
-
 	cout << "   Умножение " << numK1 << " * " << numK2 << " = " << resKM << endl;
 	cout << "   Количество рекурсивных вызовов: " << recursionCount << endl;
+
 	// Задание 3: Медиана
 	n3 num3;
 	vector<int> arr{ 3, 2, 4, 7, 3, 8, 6 };
-
 	cout << "\n3. Вычисление медианы." << endl;
 	cout << "   Массив: ";
-
 	for (int n : arr) { cout << n << " "; } 
 	cout << endl;
-
 	cout << "   Медиана: " << num3.findMedian(arr) << endl;
 
 	// Задание 4: Возведение в степень(быстрый алгоритм)
@@ -414,6 +404,7 @@ int main()
 	cout << "\n5. Наибольшая общая подстрока." << endl;
 	cout << "   Строка 1: " << str1 << "; " << "Строка 2: " << str2 << endl;
 	cout << "   LCS: " << n5(str1, str2) << endl;
+
 	// Задание 6:
 	
 
