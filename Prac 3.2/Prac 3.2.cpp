@@ -316,8 +316,6 @@ string n5(const string& s1, const string& s2)
 {
 	static unordered_map<string, string> memo;
 
-	memo.clear();
-
 	string key = s1 + "|" + s2;
 
 	if (memo.find(key) != memo.end()) 
@@ -410,9 +408,17 @@ int main()
 	cout << "\n4. Возведение в степень." << endl;
 	cout << "   Число " << "a(" << a << ")" << "^" << "b(" << b << ")" << endl;
 	cout << "   Результат: " << n4(a, b) << endl;
-	// Задание 5:
+
+	// Задание 5: Алгоритм нахождения наибольшей общей подстроки
+	string str1{ "Hello, world!" }, str2{ "Bye-bye, universe!" };
+	cout << "\n5. Наибольшая общая подстрока." << endl;
+	cout << "   Строка 1: " << str1 << "; " << "Строка 2: " << str2 << endl;
+	cout << "   LCS: " << n5(str1, str2) << endl;
 	// Задание 6:
+	
+
 	// Задание 7:
+	
 	// Задание 8:
 	
 
