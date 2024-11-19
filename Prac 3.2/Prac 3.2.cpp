@@ -456,7 +456,16 @@ int main()
 	cout << "   LCS: " << n5(str1, str2) << endl;
 
 	// Задание 6: Алгоритм вычисления выпуклой оболочки
-	
+	n6 num6;
+	vector<n6::FPoint> points{ { 3.3, 2.1 }, {4.5, 6.7 }, {3.1, 5.6}, {2.0, 3.5} };
+	cout << "\n6. Вычисление выпуклой оболочки." << endl;
+	cout << "   Вершины:" << endl << "   ";
+	vector<n6::FPoint> hull = num6.convexHull(points);
+	for (const n6::FPoint& p : hull)
+	{
+		cout << "(" << p.x << ", " << p.y << "); ";
+	}
+	cout << endl;
 
 	// Задание 7: Минимальная разница сумм двух групп массивов
 	
