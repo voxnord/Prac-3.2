@@ -3,6 +3,7 @@
 #include <cmath>
 #include <string>
 #include <algorithm>
+#include <unordered_map>
 #include <functional>
 #include <vector>
 
@@ -292,14 +293,56 @@ public:
 
 };
 
-void n4()
+double n4(double a, int n)
 {
-	
+    if (n == 0) 
+	{
+        return 1;
+    }
+
+    double halfPower = n4(a, n / 2);
+
+    if (n % 2 == 0) 
+	{
+        return halfPower * halfPower;
+    } 
+	else 
+	{
+        return a * halfPower * halfPower;
+    }
 }
 
-void n5()
+string n5(const string& s1, const string& s2)
 {
+	static unordered_map<string, string> memo;
 
+	memo.clear();
+
+	string key = s1 + "|" + s2;
+
+	if (memo.find(key) != memo.end()) 
+	{
+		return memo[key];
+	}
+
+	if (s1.empty() || s2.empty()) 
+	{
+		return "";
+	}
+
+	if (s1[0] == s2[0]) 
+	{
+		string result = s1[0] + n5(s1.substr(1), s2.substr(1));
+		memo[key] = result;
+		return result;
+	}
+
+	string result1 = n5(s1.substr(1), s2);
+	string result2 = n5(s1, s2.substr(1));
+
+	string result = (result1.size() > result2.size()) ? result1 : result2;
+	memo[key] = result;
+	return result;
 }
 
 void n6()
@@ -322,6 +365,7 @@ int main()
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
+	// Задание 1: Пара ближайших точек
 	n1 num1;
 	vector<n1::point> Points{ {1, 3}, {2, 5}, {5, 4}, {1, 6} };
 
@@ -338,6 +382,7 @@ int main()
 	cout << " между парами" << " (" << resClP.p1.x << ", " << resClP.p1.y << ")";
 	cout << " (" << resClP.p2.x << ", " << resClP.p2.y << ")" << endl;
 
+	// Задание 2: Алгоритм Карацубы
 	n2 num2;
 
 	cout << "\n2. Умножение(Алгоритм Карацубы). " << endl;
@@ -348,7 +393,7 @@ int main()
 
 	cout << "   Умножение " << numK1 << " * " << numK2 << " = " << resKM << endl;
 	cout << "   Количество рекурсивных вызовов: " << recursionCount << endl;
-
+	// Задание 3: Медиана
 	n3 num3;
 	vector<int> arr{ 3, 2, 4, 7, 3, 8, 6 };
 
@@ -360,6 +405,15 @@ int main()
 
 	cout << "   Медиана: " << num3.findMedian(arr) << endl;
 
+	// Задание 4: Возведение в степень(быстрый алгоритм)
+	double a{ 4.67 }; int b{ 3 };
+	cout << "\n4. Возведение в степень." << endl;
+	cout << "   Число " << "a(" << a << ")" << "^" << "b(" << b << ")" << endl;
+	cout << "   Результат: " << n4(a, b) << endl;
+	// Задание 5:
+	// Задание 6:
+	// Задание 7:
+	// Задание 8:
 	
 
 	return 0;
