@@ -343,10 +343,60 @@ string n5(const string& s1, const string& s2)
 	return result;
 }
 
-void n6()
+class n6
 {
 
-}
+public:
+	struct FPoint 
+	{
+		double x, y;
+
+		bool operator<(const FPoint& p) const 
+		{
+			return x < p.x || (x == p.x && y < p.y);
+		}
+	};
+private:
+	int orientation(const FPoint& a, const FPoint& b, const FPoint& c)
+	{
+		double val = (b.y - a.y) * (c.x - b.x) - (b.x - a.x) * (c.y - b.y);
+		if (val == 0) return 0;
+		return (val > 0) ? 1 : -1;
+	}
+public:
+	vector<FPoint> convexHull(vector<FPoint>& points)
+	{
+		int n = points.size();
+		if (n < 3) return points;
+
+		sort(points.begin(), points.end());
+
+		vector<FPoint> hull;
+
+		for (const auto& p : points) 
+		{
+			while (hull.size() >= 2 && orientation(hull[hull.size() - 2], hull[hull.size() - 1], p) != -1) 
+			{
+				hull.pop_back();
+			}
+			hull.push_back(p);
+		}
+
+		size_t t = hull.size() + 1;
+		for (int i = n - 1; i >= 0; --i) 
+		{
+			while (hull.size() >= t && orientation(hull[hull.size() - 2], hull[hull.size() - 1], points[i]) != -1) 
+			{
+				hull.pop_back();
+			}
+			hull.push_back(points[i]);
+		}
+
+		hull.pop_back();
+
+		return hull;
+	}
+};
 
 void n7()
 {
@@ -405,12 +455,12 @@ int main()
 	cout << "   Строка 1: " << str1 << "; " << "Строка 2: " << str2 << endl;
 	cout << "   LCS: " << n5(str1, str2) << endl;
 
-	// Задание 6:
+	// Задание 6: Алгоритм вычисления выпуклой оболочки
 	
 
-	// Задание 7:
+	// Задание 7: Минимальная разница сумм двух групп массивов
 	
-	// Задание 8:
+	// Задание 8: Минимальная разница сумм k групп массивов
 	
 
 	return 0;
