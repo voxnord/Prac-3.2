@@ -513,12 +513,12 @@ int main()
 
 	// Задание 1: Пара ближайших точек
 	n1 num1;
-	vector<n1::point> Points{ {1, 3}, {2, 5}, {5, 4}, {1, 6} };
+	vector<n1::point> points1{ {1, 3}, {2, 5}, {5, 4}, {1, 6} };
 	cout << "\n1. Поиск пары ближайших точек." << endl;
 	cout << "   Пары точек:";
-	for (n1::point p : Points) cout << " (" << p.x << ", " << p.y << "); ";
+	for (n1::point p : points1) { cout << " (" << p.x << ", " << p.y << "); "; }
 	cout << endl;
-	n1::clpResult resClP = num1.ClosestPair(Points);
+	n1::clpResult resClP = num1.ClosestPair(points1);
 	cout << "   Минимальное расстояние: " << resClP.distance; 
 	cout << " между парами" << " (" << resClP.p1.x << ", " << resClP.p1.y << ")";
 	cout << " (" << resClP.p2.x << ", " << resClP.p2.y << ")" << endl;
@@ -534,12 +534,12 @@ int main()
 
 	// Задание 3: Медиана
 	n3 num3;
-	vector<int> arr{ 3, 2, 4, 7, 3, 8, 6 };
+	vector<int> arr3{ 3, 2, 4, 7, 3, 8, 6 };
 	cout << "\n3. Вычисление медианы." << endl;
 	cout << "   Массив: ";
-	for (int n : arr) { cout << n << " "; } 
+	for (int n : arr3) { cout << n << " "; } 
 	cout << endl;
-	cout << "   Медиана: " << num3.findMedian(arr) << endl;
+	cout << "   Медиана: " << num3.findMedian(arr3) << endl;
 
 	// Задание 4: Возведение в степень(быстрый алгоритм)
 	double a{ 4.67 }; int b{ 3 };
@@ -559,16 +559,45 @@ int main()
 	cout << "\n6. Вычисление выпуклой оболочки." << endl;
 	cout << "   Вершины:" << endl << "   ";
 	vector<n6::FPoint> hull = num6.convexHull(points);
-	for (const n6::FPoint& p : hull)
-	{
-		cout << "(" << p.x << ", " << p.y << "); ";
-	}
+	for (const n6::FPoint& p : hull) { cout << "(" << p.x << ", " << p.y << "); "; }
 	cout << endl;
 
 	// Задание 7: Минимальная разница сумм двух групп массивов
-	
+	n7 num7;
+	vector<int> arr7{ 3, 4, 5, 6, 7, 2, 1 };
+	cout << "\n7. Минимальная разница сумм двух групп массивов." << endl;
+	pair<vector<int>, vector<int>> result = num7.partitionWithMinDiff(arr7);
+	vector<int> group1 = result.first; vector<int> group2 = result.second;
+	int sum1 = accumulate(group1.begin(), group1.end(), 0);
+	int sum2 = accumulate(group2.begin(), group2.end(), 0);
+	int sumdiff = abs(sum1 - sum2);
+	cout << "   Группа 1: ";
+	for (int numf : group1) { cout << numf << " "; }
+	cout << "-> Сумма: " << sum1 << endl;
+	cout << "   Группа 2: ";
+	for (int numf : group2) { cout << numf << " "; }
+	cout << "-> Сумма: " << sum2 << endl;
+	cout << "   Минимальная разница сумм: " << sumdiff << endl;
+
 	// Задание 8: Минимальная разница сумм k групп массивов
-	
+	n8 num8;
+	vector<int> arr8{ 4, 6, 2, 5, 7, 9, 3, 1, 6 };
+	cout << "8. Минимальная разница сумм k групп массивов." << endl;
+	vector<n8::Group> groups = num8.partitionArray(arr8, 3);
+	int minAm = groups[0].sum, maxAm = groups[0].sum;
+	for (int i = 0; i < groups.size(); i++)
+	{
+		cout << "   Группа " << i + 1 << ": ";
+		for (int numf : groups[i].elements)
+		{
+			cout << numf << " ";
+		}
+		cout << "-> Сумма: " << groups[i].sum << endl;
+
+		minAm = min(minAm, groups[i].sum);
+		maxAm = max(maxAm, groups[i].sum);
+	}
+	cout << "   Минимальная разница сумм: " << maxAm - minAm << endl;
 
 	return 0;
 }
