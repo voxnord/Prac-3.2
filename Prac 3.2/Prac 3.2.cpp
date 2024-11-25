@@ -331,17 +331,17 @@ string n5(const string& s1, const string& s2)
 
 	if (s1[0] == s2[0]) 
 	{
-		string result = s1[0] + n5(s1.substr(1), s2.substr(1));
-		memo[key] = result;
-		return result;
+		string res = s1[0] + n5(s1.substr(1), s2.substr(1));
+		memo[key] = res;
+		return res;
 	}
 
-	string result1 = n5(s1.substr(1), s2);
-	string result2 = n5(s1, s2.substr(1));
+	string res1 = n5(s1.substr(1), s2);
+	string res2 = n5(s1, s2.substr(1));
 
-	string result = (result1.size() > result2.size()) ? result1 : result2;
-	memo[key] = result;
-	return result;
+	string res = (res1.size() > res2.size()) ? res1 : res2;
+	memo[key] = res;
+	return res;
 }
 
 class n6
@@ -358,7 +358,7 @@ public:
 		}
 	};
 private:
-	int orientation(const FPoint& a, const FPoint& b, const FPoint& c)
+	int orient(const FPoint& a, const FPoint& b, const FPoint& c)
 	{
 		double val = (b.y - a.y) * (c.x - b.x) - (b.x - a.x) * (c.y - b.y);
 		if (val == 0) return 0;
@@ -376,7 +376,7 @@ public:
 
 		for (const auto& p : points) 
 		{
-			while (hull.size() >= 2 && orientation(hull[hull.size() - 2], hull[hull.size() - 1], p) != -1) 
+			while (hull.size() >= 2 && orient(hull[hull.size() - 2], hull[hull.size() - 1], p) != -1) 
 			{
 				hull.pop_back();
 			}
@@ -386,7 +386,7 @@ public:
 		size_t t = hull.size() + 1;
 		for (int i = n - 1; i >= 0; --i) 
 		{
-			while (hull.size() >= t && orientation(hull[hull.size() - 2], hull[hull.size() - 1], points[i]) != -1) 
+			while (hull.size() >= t && orient(hull[hull.size() - 2], hull[hull.size() - 1], points[i]) != -1) 
 			{
 				hull.pop_back();
 			}
@@ -402,12 +402,12 @@ public:
 class n7
 {
 private:
-	int calculateTotalSum(const vector<int>& nums)
+	int calcTotalSum(const vector<int>& nums)
 	{
 		return accumulate(nums.begin(), nums.end(), 0);
 	}
 
-	vector<vector<bool>> initializeDPTable(int n, int halfSum)
+	vector<vector<bool>> initDPTable(int n, int halfSum)
 	{
 		vector<vector<bool>> dp(n + 1, vector<bool>(halfSum + 1, false));
 		dp[0][0] = true;
@@ -430,7 +430,7 @@ private:
 		}
 	}
 
-	int findBestSum(const vector<vector<bool>>& dp, int n, int halfSum)
+	int BestSum(const vector<vector<bool>>& dp, int n, int halfSum)
 	{
 		for (int j = halfSum; j >= 0; --j)
 		{
@@ -442,7 +442,7 @@ private:
 		return 0;
 	}
 
-	pair<vector<int>, vector<int>> restoreGroups(const vector<int>& nums, int bestSum, const vector<vector<bool>>& dp)
+	pair<vector<int>, vector<int>> restGroups(const vector<int>& nums, int bestSum, const vector<vector<bool>>& dp)
 	{
 		vector<int> group1, group2;
 		int sum1 = bestSum;
@@ -464,18 +464,18 @@ private:
 		return { group1, group2 };
 	}
 public:
-	pair<vector<int>, vector<int>> partitionWithMinDifference(const vector<int>& nums) 
+	pair<vector<int>, vector<int>> partitionWithMinDiff(const vector<int>& nums) 
 	{
-		int totalSum = calculateTotalSum(nums);
+		int totalSum = calcTotalSum(nums);
 		int halfSum = totalSum / 2;
 
-		vector<vector<bool>> dp = initializeDPTable(nums.size(), halfSum);
+		vector<vector<bool>> dp = initDPTable(nums.size(), halfSum);
 
 		fillDPTable(nums, dp, halfSum);
 
-		int bestSum = findBestSum(dp, nums.size(), halfSum);
+		int bestSum = BestSum(dp, nums.size(), halfSum);
 
-		return restoreGroups(nums, bestSum, dp);
+		return restGroups(nums, bestSum, dp);
 	}
 };
 
