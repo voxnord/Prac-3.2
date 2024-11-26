@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <Windows.h>
 #include <cmath>
 #include <string>
@@ -115,7 +115,7 @@ public:
 class n2
 {
 private:
-	
+
 	string addStr(const string& num1, const string& num2)
 	{
 		string res;
@@ -226,21 +226,21 @@ public:
 
 		return rmLZ(result);
 	}
-	
+
 };
 
 class n3
 {
 private:
-	int partition(vector<int>& nums, int left, int right, int pivotIndex) 
+	int partition(vector<int>& nums, int left, int right, int pivotIndex)
 	{
 		int pivotValue = nums[pivotIndex];
 		swap(nums[pivotIndex], nums[right]);
 		int storeIndex = left;
 
-		for (int i = left; i < right; i++) 
+		for (int i = left; i < right; i++)
 		{
-			if (nums[i] < pivotValue) 
+			if (nums[i] < pivotValue)
 			{
 				swap(nums[storeIndex], nums[i]);
 				storeIndex++;
@@ -251,9 +251,9 @@ private:
 		return storeIndex;
 	}
 
-	int quickSelect(vector<int>& nums, int left, int right, int k) 
+	int quickSelect(vector<int>& nums, int left, int right, int k)
 	{
-		if (left == right) 
+		if (left == right)
 		{
 			return nums[left];
 		}
@@ -261,15 +261,15 @@ private:
 		int pivotIndex = left + rand() % (right - left + 1);
 		pivotIndex = partition(nums, left, right, pivotIndex);
 
-		if (k == pivotIndex) 
+		if (k == pivotIndex)
 		{
 			return nums[k];
 		}
-		else if (k < pivotIndex) 
+		else if (k < pivotIndex)
 		{
 			return quickSelect(nums, left, pivotIndex - 1, k);
 		}
-		else 
+		else
 		{
 			return quickSelect(nums, pivotIndex + 1, right, k);
 		}
@@ -277,14 +277,14 @@ private:
 
 public:
 
-	double findMedian(vector<int>& nums) 
+	double findMedian(vector<int>& nums)
 	{
 		int n = nums.size();
-		if (n % 2 == 1) 
+		if (n % 2 == 1)
 		{
 			return quickSelect(nums, 0, n - 1, n / 2);
 		}
-		else 
+		else
 		{
 			int leftMid = quickSelect(nums, 0, n - 1, n / 2 - 1);
 			int rightMid = quickSelect(nums, 0, n - 1, n / 2);
@@ -296,21 +296,21 @@ public:
 
 double n4(double a, int n)
 {
-    if (n == 0) 
+	if (n == 0)
 	{
-        return 1;
-    }
+		return 1;
+	}
 
-    double halfPower = n4(a, n / 2);
+	double halfPower = n4(a, n / 2);
 
-    if (n % 2 == 0) 
+	if (n % 2 == 0)
 	{
-        return halfPower * halfPower;
-    } 
-	else 
+		return halfPower * halfPower;
+	}
+	else
 	{
-        return a * halfPower * halfPower;
-    }
+		return a * halfPower * halfPower;
+	}
 }
 
 string n5(const string& s1, const string& s2)
@@ -319,17 +319,17 @@ string n5(const string& s1, const string& s2)
 
 	string key = s1 + "|" + s2;
 
-	if (memo.find(key) != memo.end()) 
+	if (memo.find(key) != memo.end())
 	{
 		return memo[key];
 	}
 
-	if (s1.empty() || s2.empty()) 
+	if (s1.empty() || s2.empty())
 	{
 		return "";
 	}
 
-	if (s1[0] == s2[0]) 
+	if (s1[0] == s2[0])
 	{
 		string res = s1[0] + n5(s1.substr(1), s2.substr(1));
 		memo[key] = res;
@@ -348,11 +348,11 @@ class n6
 {
 
 public:
-	struct FPoint 
+	struct FPoint
 	{
 		double x, y;
 
-		bool operator<(const FPoint& p) const 
+		bool operator<(const FPoint& p) const
 		{
 			return x < p.x || (x == p.x && y < p.y);
 		}
@@ -374,9 +374,9 @@ public:
 
 		vector<FPoint> hull;
 
-		for (const auto& p : points) 
+		for (const auto& p : points)
 		{
-			while (hull.size() >= 2 && orient(hull[hull.size() - 2], hull[hull.size() - 1], p) != -1) 
+			while (hull.size() >= 2 && orient(hull[hull.size() - 2], hull[hull.size() - 1], p) != -1)
 			{
 				hull.pop_back();
 			}
@@ -384,9 +384,9 @@ public:
 		}
 
 		size_t t = hull.size() + 1;
-		for (int i = n - 1; i >= 0; --i) 
+		for (int i = n - 1; i >= 0; --i)
 		{
-			while (hull.size() >= t && orient(hull[hull.size() - 2], hull[hull.size() - 1], points[i]) != -1) 
+			while (hull.size() >= t && orient(hull[hull.size() - 2], hull[hull.size() - 1], points[i]) != -1)
 			{
 				hull.pop_back();
 			}
@@ -421,10 +421,10 @@ private:
 		{
 			for (int j = 0; j <= halfSum; ++j)
 			{
-				dp[i][j] = dp[i - 1][j]; // Не берем текущий элемент
+				dp[i][j] = dp[i - 1][j]; // РќРµ Р±РµСЂРµРј С‚РµРєСѓС‰РёР№ СЌР»РµРјРµРЅС‚
 				if (j >= nums[i - 1])
 				{
-					dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]]; // Берем текущий элемент
+					dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]]; // Р‘РµСЂРµРј С‚РµРєСѓС‰РёР№ СЌР»РµРјРµРЅС‚
 				}
 			}
 		}
@@ -464,7 +464,7 @@ private:
 		return { group1, group2 };
 	}
 public:
-	pair<vector<int>, vector<int>> partitionWithMinDiff(const vector<int>& nums) 
+	pair<vector<int>, vector<int>> partitionWithMinDiff(const vector<int>& nums)
 	{
 		int totalSum = calcTotalSum(nums);
 		int halfSum = totalSum / 2;
@@ -482,20 +482,20 @@ public:
 class n8
 {
 public:
-	struct Group 
+	struct Group
 	{
 		vector<int> elements;
 		int sum = 0;
 	};
 
-	vector<Group> partitionArray(const vector<int>& nums, int k) 
+	vector<Group> partitionArray(const vector<int>& nums, int k)
 	{
 		vector<Group> groups(k);
 
 		vector<int> sortedNums = nums;
 		sort(sortedNums.rbegin(), sortedNums.rend());
 
-		for (int num : sortedNums) 
+		for (int num : sortedNums)
 		{
 			auto minGroup = min_element(groups.begin(), groups.end(), [](const Group& a, const Group& b) { return a.sum < b.sum; });
 			minGroup->elements.push_back(num);
@@ -508,96 +508,96 @@ public:
 
 int main()
 {
-	SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
+	SetConsoleCP(65001);
+	SetConsoleOutputCP(65001);
 
-	// Задание 1: Пара ближайших точек
+	// Р—Р°РґР°РЅРёРµ 1: РџР°СЂР° Р±Р»РёР¶Р°Р№С€РёС… С‚РѕС‡РµРє
 	n1 num1;
 	vector<n1::point> points1{ {1, 3}, {2, 5}, {5, 4}, {1, 6} };
-	cout << "\n1. Поиск пары ближайших точек." << endl;
-	cout << "   Пары точек:";
+	cout << "\n1. РџРѕРёСЃРє РїР°СЂС‹ Р±Р»РёР¶Р°Р№С€РёС… С‚РѕС‡РµРє." << endl;
+	cout << "   РџР°СЂС‹ С‚РѕС‡РµРє:";
 	for (n1::point p : points1) { cout << " (" << p.x << ", " << p.y << "); "; }
 	cout << endl;
 	n1::clpResult resClP = num1.ClosestPair(points1);
-	cout << "   Минимальное расстояние: " << resClP.distance; 
-	cout << " между парами" << " (" << resClP.p1.x << ", " << resClP.p1.y << ")";
+	cout << "   РњРёРЅРёРјР°Р»СЊРЅРѕРµ СЂР°СЃСЃС‚РѕСЏРЅРёРµ: " << resClP.distance;
+	cout << " РјРµР¶РґСѓ РїР°СЂР°РјРё" << " (" << resClP.p1.x << ", " << resClP.p1.y << ")";
 	cout << " (" << resClP.p2.x << ", " << resClP.p2.y << ")" << endl;
 
-	// Задание 2: Алгоритм Карацубы
+	// Р—Р°РґР°РЅРёРµ 2: РђР»РіРѕСЂРёС‚Рј РљР°СЂР°С†СѓР±С‹
 	n2 num2;
-	cout << "\n2. Умножение(Алгоритм Карацубы). " << endl;
+	cout << "\n2. РЈРјРЅРѕР¶РµРЅРёРµ(РђР»РіРѕСЂРёС‚Рј РљР°СЂР°С†СѓР±С‹). " << endl;
 	string numK1{ "1234" }, numK2{ "5678" };
 	string resKM = num2.karatsubaMultiply(numK1, numK2);
 	int recursionCount = num2.countRecursions;
-	cout << "   Умножение " << numK1 << " * " << numK2 << " = " << resKM << endl;
-	cout << "   Количество рекурсивных вызовов: " << recursionCount << endl;
+	cout << "   РЈРјРЅРѕР¶РµРЅРёРµ " << numK1 << " * " << numK2 << " = " << resKM << endl;
+	cout << "   РљРѕР»РёС‡РµСЃС‚РІРѕ СЂРµРєСѓСЂСЃРёРІРЅС‹С… РІС‹Р·РѕРІРѕРІ: " << recursionCount << endl;
 
-	// Задание 3: Медиана
+	// Р—Р°РґР°РЅРёРµ 3: РњРµРґРёР°РЅР°
 	n3 num3;
 	vector<int> arr3{ 3, 2, 4, 7, 3, 8, 6 };
-	cout << "\n3. Вычисление медианы." << endl;
-	cout << "   Массив: ";
-	for (int n : arr3) { cout << n << " "; } 
+	cout << "\n3. Р’С‹С‡РёСЃР»РµРЅРёРµ РјРµРґРёР°РЅС‹." << endl;
+	cout << "   РњР°СЃСЃРёРІ: ";
+	for (int n : arr3) { cout << n << " "; }
 	cout << endl;
-	cout << "   Медиана: " << num3.findMedian(arr3) << endl;
+	cout << "   РњРµРґРёР°РЅР°: " << num3.findMedian(arr3) << endl;
 
-	// Задание 4: Возведение в степень(быстрый алгоритм)
+	// Р—Р°РґР°РЅРёРµ 4: Р’РѕР·РІРµРґРµРЅРёРµ РІ СЃС‚РµРїРµРЅСЊ(Р±С‹СЃС‚СЂС‹Р№ Р°Р»РіРѕСЂРёС‚Рј)
 	double a{ 4.67 }; int b{ 3 };
-	cout << "\n4. Возведение в степень." << endl;
-	cout << "   Число " << "a(" << a << ")" << "^" << "b(" << b << ")" << endl;
-	cout << "   Результат: " << n4(a, b) << endl;
+	cout << "\n4. Р’РѕР·РІРµРґРµРЅРёРµ РІ СЃС‚РµРїРµРЅСЊ." << endl;
+	cout << "   Р§РёСЃР»Рѕ " << "a(" << a << ")" << "^" << "b(" << b << ")" << endl;
+	cout << "   Р РµР·СѓР»СЊС‚Р°С‚: " << n4(a, b) << endl;
 
-	// Задание 5: Алгоритм нахождения наибольшей общей подстроки
+	// Р—Р°РґР°РЅРёРµ 5: РђР»РіРѕСЂРёС‚Рј РЅР°С…РѕР¶РґРµРЅРёСЏ РЅР°РёР±РѕР»СЊС€РµР№ РѕР±С‰РµР№ РїРѕРґСЃС‚СЂРѕРєРё
 	string str1{ "Hello, world!" }, str2{ "Bye-bye, universe!" };
-	cout << "\n5. Наибольшая общая подстрока." << endl;
-	cout << "   Строка 1: " << str1 << "; " << "Строка 2: " << str2 << endl;
+	cout << "\n5. РќР°РёР±РѕР»СЊС€Р°СЏ РѕР±С‰Р°СЏ РїРѕРґСЃС‚СЂРѕРєР°." << endl;
+	cout << "   РЎС‚СЂРѕРєР° 1: " << str1 << "; " << "РЎС‚СЂРѕРєР° 2: " << str2 << endl;
 	cout << "   LCS: " << n5(str1, str2) << endl;
 
-	// Задание 6: Алгоритм вычисления выпуклой оболочки
+	// Р—Р°РґР°РЅРёРµ 6: РђР»РіРѕСЂРёС‚Рј РІС‹С‡РёСЃР»РµРЅРёСЏ РІС‹РїСѓРєР»РѕР№ РѕР±РѕР»РѕС‡РєРё
 	n6 num6;
 	vector<n6::FPoint> points{ { 3.3, 2.1 }, {4.5, 6.7 }, {3.1, 5.6}, {2.0, 3.5} };
-	cout << "\n6. Вычисление выпуклой оболочки." << endl;
-	cout << "   Вершины:" << endl << "   ";
+	cout << "\n6. Р’С‹С‡РёСЃР»РµРЅРёРµ РІС‹РїСѓРєР»РѕР№ РѕР±РѕР»РѕС‡РєРё." << endl;
+	cout << "   Р’РµСЂС€РёРЅС‹:" << endl << "   ";
 	vector<n6::FPoint> hull = num6.convexHull(points);
 	for (const n6::FPoint& p : hull) { cout << "(" << p.x << ", " << p.y << "); "; }
 	cout << endl;
 
-	// Задание 7: Минимальная разница сумм двух групп массивов
+	// Р—Р°РґР°РЅРёРµ 7: РњРёРЅРёРјР°Р»СЊРЅР°СЏ СЂР°Р·РЅРёС†Р° СЃСѓРјРј РґРІСѓС… РіСЂСѓРїРї РјР°СЃСЃРёРІРѕРІ
 	n7 num7;
 	vector<int> arr7{ 3, 4, 5, 6, 7, 2, 1 };
-	cout << "\n7. Минимальная разница сумм двух групп массивов." << endl;
+	cout << "\n7. РњРёРЅРёРјР°Р»СЊРЅР°СЏ СЂР°Р·РЅРёС†Р° СЃСѓРјРј РґРІСѓС… РіСЂСѓРїРї РјР°СЃСЃРёРІРѕРІ." << endl;
 	pair<vector<int>, vector<int>> result = num7.partitionWithMinDiff(arr7);
 	vector<int> group1 = result.first; vector<int> group2 = result.second;
 	int sum1 = accumulate(group1.begin(), group1.end(), 0);
 	int sum2 = accumulate(group2.begin(), group2.end(), 0);
 	int sumdiff = abs(sum1 - sum2);
-	cout << "   Группа 1: ";
+	cout << "   Р“СЂСѓРїРїР° 1: ";
 	for (int numf : group1) { cout << numf << " "; }
-	cout << "-> Сумма: " << sum1 << endl;
-	cout << "   Группа 2: ";
+	cout << "-> РЎСѓРјРјР°: " << sum1 << endl;
+	cout << "   Р“СЂСѓРїРїР° 2: ";
 	for (int numf : group2) { cout << numf << " "; }
-	cout << "-> Сумма: " << sum2 << endl;
-	cout << "   Минимальная разница сумм: " << sumdiff << endl;
+	cout << "-> РЎСѓРјРјР°: " << sum2 << endl;
+	cout << "   РњРёРЅРёРјР°Р»СЊРЅР°СЏ СЂР°Р·РЅРёС†Р° СЃСѓРјРј: " << sumdiff << endl;
 
-	// Задание 8: Минимальная разница сумм k групп массивов
+	// Р—Р°РґР°РЅРёРµ 8: РњРёРЅРёРјР°Р»СЊРЅР°СЏ СЂР°Р·РЅРёС†Р° СЃСѓРјРј k РіСЂСѓРїРї РјР°СЃСЃРёРІРѕРІ
 	n8 num8;
 	vector<int> arr8{ 4, 6, 2, 5, 7, 9, 3, 1, 6 };
-	cout << "8. Минимальная разница сумм k групп массивов." << endl;
+	cout << "\n8. РњРёРЅРёРјР°Р»СЊРЅР°СЏ СЂР°Р·РЅРёС†Р° СЃСѓРјРј k РіСЂСѓРїРї РјР°СЃСЃРёРІРѕРІ." << endl;
 	vector<n8::Group> groups = num8.partitionArray(arr8, 3);
 	int minAm = groups[0].sum, maxAm = groups[0].sum;
 	for (int i = 0; i < groups.size(); i++)
 	{
-		cout << "   Группа " << i + 1 << ": ";
+		cout << "   Р“СЂСѓРїРїР° " << i + 1 << ": ";
 		for (int numf : groups[i].elements)
 		{
 			cout << numf << " ";
 		}
-		cout << "-> Сумма: " << groups[i].sum << endl;
+		cout << "-> РЎСѓРјРјР°: " << groups[i].sum << endl;
 
 		minAm = min(minAm, groups[i].sum);
 		maxAm = max(maxAm, groups[i].sum);
 	}
-	cout << "   Минимальная разница сумм: " << maxAm - minAm << endl;
+	cout << "   РњРёРЅРёРјР°Р»СЊРЅР°СЏ СЂР°Р·РЅРёС†Р° СЃСѓРјРј: " << maxAm - minAm << endl;
 
 	return 0;
 }
