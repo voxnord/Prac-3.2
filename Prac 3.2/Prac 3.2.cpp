@@ -464,7 +464,7 @@ private:
 		return { group1, group2 };
 	}
 public:
-	pair<vector<int>, vector<int>> partitionWithMinDiff(const vector<int>& nums)
+	pair<vector<int>, vector<int>> partitionWMDiff(const vector<int>& nums)
 	{
 		int totalSum = calcTotalSum(nums);
 		int halfSum = totalSum / 2;
@@ -484,7 +484,7 @@ class n8
 public:
 	struct Group
 	{
-		vector<int> elements;
+		vector<int> elem;
 		int sum = 0;
 	};
 
@@ -492,13 +492,13 @@ public:
 	{
 		vector<Group> groups(k);
 
-		vector<int> sortedNums = nums;
-		sort(sortedNums.rbegin(), sortedNums.rend());
+		vector<int> sorted = nums;
+		sort(sorted.rbegin(), sorted.rend());
 
-		for (int num : sortedNums)
+		for (int num : sorted)
 		{
 			auto minGroup = min_element(groups.begin(), groups.end(), [](const Group& a, const Group& b) { return a.sum < b.sum; });
-			minGroup->elements.push_back(num);
+			minGroup->elem.push_back(num);
 			minGroup->sum += num;
 		}
 
@@ -544,7 +544,7 @@ int main()
 	// Задание 4: Возведение в степень(быстрый алгоритм)
 	double a{ 4.67 }; int b{ 3 };
 	cout << "\n4. Возведение в степень." << endl;
-	cout << "   Число " << "a(" << a << ")" << "^" << "b(" << b << ")" << endl;
+	cout << "   Число " << "a = " << a << "^" << "b = " << b << endl;
 	cout << "   Результат: " << n4(a, b) << endl;
 
 	// Задание 5: Алгоритм нахождения наибольшей общей подстроки
@@ -566,7 +566,7 @@ int main()
 	n7 num7;
 	vector<int> arr7{ 3, 4, 5, 6, 7, 2, 1 };
 	cout << "\n7. Минимальная разница сумм двух групп массивов." << endl;
-	pair<vector<int>, vector<int>> result = num7.partitionWithMinDiff(arr7);
+	pair<vector<int>, vector<int>> result = num7.partitionWMDiff(arr7);
 	vector<int> group1 = result.first; vector<int> group2 = result.second;
 	int sum1 = accumulate(group1.begin(), group1.end(), 0);
 	int sum2 = accumulate(group2.begin(), group2.end(), 0);
@@ -588,7 +588,7 @@ int main()
 	for (int i = 0; i < groups.size(); i++)
 	{
 		cout << "   Группа " << i + 1 << ": ";
-		for (int numf : groups[i].elements)
+		for (int numf : groups[i].elem)
 		{
 			cout << numf << " ";
 		}
