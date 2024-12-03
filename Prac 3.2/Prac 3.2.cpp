@@ -421,10 +421,10 @@ private:
 		{
 			for (int j = 0; j <= halfSum; ++j)
 			{
-				dp[i][j] = dp[i - 1][j]; // Не берем текущий элемент
+				dp[i][j] = dp[i - 1][j];
 				if (j >= nums[i - 1])
 				{
-					dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]]; // Берем текущий элемент
+					dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]];
 				}
 			}
 		}
